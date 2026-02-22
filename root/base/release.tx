@@ -232,6 +232,7 @@
 %%  }
 %%  override content -> {
 
+  %%  include inc::cve_banner;
   %%  include inc::notification;
 
   %%  block page_content -> { }

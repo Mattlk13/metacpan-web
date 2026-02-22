@@ -1,0 +1,35 @@
+%%  if $cves && $cves.size() {
+<details class="cve-banner">
+    <summary class="cve-summary">
+        <i class="fa fa-shield" aria-hidden="true"></i>
+        <strong>Security Advisories ([% $cves.size() %])</strong>
+    </summary>
+    <div class="cve-body">
+        %%  for $cves -> $cve {
+        <div class="cve-entry">
+            <div class="cve-header">
+                <strong>
+                %%  if $cve.cves.size() {
+                    [% $cve.cves.join(', ') %]
+                %%  }
+                %%  else {
+                    [% $cve.cpansa_id %]
+                %%  }
+                </strong>
+                %%  if $cve.reported {
+                ([% $cve.reported %])
+                %%  }
+            </div>
+            <p>[% $cve.description %]</p>
+            %%  if $cve.references.size() {
+            <ul class="cve-references">
+                %%  for $cve.references -> $ref {
+                <li><a rel="noopener nofollow" href="[% $ref %]">[% $ref %]</a></li>
+                %%  }
+            </ul>
+            %%  }
+        </div>
+        %%  }
+    </div>
+</details>
+%%  }
