@@ -48,3 +48,36 @@ label.remove-notification {
 .notify-MODULE_DEPRECATED {
     background: #f8d7da;
 }
+
+.cve-banner {
+    border: 1px solid @alert-danger-border;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.cve-summary {
+    display: list-item;
+    background: @alert-danger-bg;
+    color: @alert-danger-text;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.cve-body {
+    padding: 10px 12px;
+}
+
+.cve-entry + .cve-entry {
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+ul.cve-references {
+    margin-bottom: 0;
+    list-style: disc;
+}
+
+ul.cve-references a {
+    word-break: break-all;
+}

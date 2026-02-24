@@ -21,6 +21,7 @@ my %models = (
     _changes      => 'API::Changes',
     _favorite     => 'API::Favorite',
     _permission   => 'API::Permission',
+    _cve          => 'API::CVE',
 );
 
 has [ keys %models ] => ( is => 'ro' );
@@ -68,6 +69,9 @@ sub _fetch {
                 ],
                 [
                     coverage => $self->_release->coverage( $author, $release )
+                ],
+                [
+                    cves => $self->_cve->get( $author, $release )
                 ],
             );
         },
