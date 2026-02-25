@@ -149,11 +149,6 @@ COPY t t
 USER metacpan
 CMD [ "prove", "-l", "-r", "-j", "2", "t" ]
 
-################### Production Server
-FROM server AS production
-
-USER metacpan
-
 ################### Playwright Server
 FROM server AS playwright
 USER root
@@ -170,3 +165,8 @@ USER metacpan
 ENV PERL5OPT=-MDevel::Cover=-db,/app/cover_db,-ignore,^local/,^templates/,^t/,yaml$
 
 CMD ["/app/bin/plackup-cover", "-p", "8000", "app.psgi"]
+
+################### Production Server
+FROM server AS production
+
+USER metacpan
