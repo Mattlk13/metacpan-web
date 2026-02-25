@@ -112,6 +112,10 @@ my $profile_data = {
     bitbucket => {
         url_format => 'https://bitbucket.org/%s',
     },
+    bluesky => {
+        url_format => 'https://bsky.app/profile/%s',
+        icon       => '/static/images/profile/bluesky.svg',
+    },
     codeberg => {
         url_format => 'https://codeberg.org/%s',
     },
@@ -165,6 +169,11 @@ my $profile_data = {
     linkedin => {
         label      => 'LinkedIn',
         url_format => 'https://www.linkedin.com/in/%s',
+    },
+    mastodon => {
+        rule       => '@([a-z0-9_]+([.-]+[a-z0-9_]+)*)@([\w-]+(\.[\w-]+))',
+        url_format => 'https://%3$s/@%1$s',
+        icon       => '/static/images/profile/mastodon.svg',
     },
     meetup => {
         url_format => 'https://www.meetup.com/members/%s',
