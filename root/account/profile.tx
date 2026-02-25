@@ -199,7 +199,14 @@
                     <select class="form-control add-profile">
                         <option>Add Profile</option>
                         %%  for $profiles.kv() -> $profile {
-                        <option value="[% $profile.key %]" data-title="[% $profile.value.name %]" data-url-format="[% $profile.value.url_format %]">[% $profile.value.name %]</option>
+                        <option
+                            value="[% $profile.key %]"
+                            data-title="[% $profile.value.name %]"
+                            data-url-format="[% $profile.value.url_format %]"
+                            %%  if $profile.value.rule {
+                            data-rule="[% $profile.value.rule %]"
+                            %%  }
+                        >[% $profile.value.name %]</option>
                         %%  }
                         <option value="">Custom...</option>
                     </select>
@@ -220,7 +227,7 @@
                     <div class="form-group [% if $known { %]profile profile-[% $profile.name %][% } %]">
                         <label class="col-sm-4 col-md-4 control-label">
                             %%  if $known {
-                            [% $known.name %]
+                            [% $known.label %]
                             <input type="hidden" name="profile.name" value="[% $profile.name %]" />
                             %%  }
                             %%  else {
@@ -233,7 +240,12 @@
                                 <span class="input-group-btn">
                                 <a href="" class="btn btn-danger remove-profile"><i class="fa fa-trash-alt"></i> remove</a>
                                 %%  if $known {
-                                <a href="" class="btn btn-primary search-btn check-url" target="_blank" data-url-template="[% $known.url_format %]"><i class="fa fa-check-square"></i> check</a>
+                                <a href="" class="btn btn-primary search-btn check-url" target="_blank"
+                                    data-url-template="[% $known.url_format %]"
+                                    %%  if $known.rule {
+                                    data-rule="[% $known.rule %]"
+                                    %%  }
+                                ><i class="fa fa-check-square"></i> check</a>
                                 </span>
                                 %%  }
                             </div>

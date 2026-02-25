@@ -1,9 +1,23 @@
-'use strict';
+import { vsprintf } from 'sprintf-js';
 
 function rewriteURL(link) {
     const url = link.dataset.urlTemplate;
+    const rule = link.dataset.rule;
     const input = link.parentNode.previousElementSibling;
-    link.href = url.replace('%s', encodeURIComponent(input.value));
+
+    let parts;
+    if (rule) {
+        const match = new RegExp(`^(${rule})$`);
+        const matched = match.exec(input.value);
+        if (!matched) {
+            return false;
+        }
+        [, , ...parts] = matched;
+    }
+    else {
+        parts = [input.value];
+    }
+    link.href = vsprintf(url, parts.map(x => encodeURIComponent(x)));
     return true;
 }
 
@@ -26,7 +40,7 @@ function removeProfile(e) {
     removeDiv(this.closest('.profile-container'));
 }
 
-function addProfile(container, id, title, formatUrl) {
+function addProfile(container, id, title, formatUrl, rule) {
     const profileNode = document.importNode(document.querySelector('#profile-tmpl').content, true);
     profileNode.querySelector('.remove-profile').addEventListener('click', removeProfile);
     if (id) {
@@ -39,6 +53,7 @@ function addProfile(container, id, title, formatUrl) {
         const check_button = profileNode.querySelector('a.check-url');
 
         check_button.dataset.urlTemplate = formatUrl;
+        check_button.dataset.rule = rule;
 
         check_button.addEventListener('click', () => {
             rewriteURL(check_button);
@@ -94,6 +109,7 @@ if (profileForm) {
             this.value,
             option.dataset.title,
             option.dataset.urlFormat,
+            option.dataset.rule,
         );
         this.selectedIndex = 0;
     });
