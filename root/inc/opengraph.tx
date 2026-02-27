@@ -8,5 +8,5 @@
 %%  if $opengraph_description {
 <meta property="og:description" content="[% $opengraph_description %]" />
 %%  }
-<meta property="og:image"       content="[% $abs_url( $opengraph_image || "/static/images/dots.png", "https://metacpan.org/") %]" />
+<meta property="og:image"       content="[% $abs_url( $opengraph_image || "/static/images/og.png", "https://metacpan.org/") %]" />
 %%  }
