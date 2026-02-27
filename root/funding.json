@@ -1,0 +1,81 @@
+{
+    "$schema": "https://fundingjson.org/schema/v1.1.0.json",
+    "version": "v1.1.0",
+    "entity": {
+        "type": "organisation",
+        "role": "owner",
+        "name": "MetaCPAN",
+        "email": "noc@metacpan.org",
+        "description": "A free, open search engine for the Comprehensive Perl Archive Network (CPAN), providing a modern web interface, a robust API, and tools for the Perl community.",
+        "webpageUrl": {
+            "url": "https://metacpan.org"
+        }
+    },
+    "projects": [
+        {
+            "guid": "metacpan",
+            "name": "MetaCPAN",
+            "description": "A free, open search engine for CPAN, providing a modern web interface, a robust API, and tools for the Perl community.",
+            "webpageUrl": {
+                "url": "https://metacpan.org"
+            },
+            "repositoryUrl": {
+                "url": "https://github.com/metacpan/metacpan-web"
+            },
+            "licenses": ["spdx:Artistic-2.0"],
+            "tags": [
+                "perl",
+                "cpan",
+                "search-engine",
+                "open-source",
+                "package-management",
+                "developer-tools"
+            ]
+        }
+    ],
+    "funding": {
+        "channels": [
+            {
+                "guid": "opencollective",
+                "type": "payment-provider",
+                "address": "https://opencollective.com/metacpan-core",
+                "description": "Open Collective"
+            },
+            {
+                "guid": "github-sponsors",
+                "type": "payment-provider",
+                "address": "https://github.com/sponsors/metacpan",
+                "description": "GitHub Sponsors"
+            }
+        ],
+        "plans": [
+            {
+                "guid": "one-time-donation",
+                "status": "active",
+                "name": "One-time donation",
+                "amount": 0,
+                "currency": "USD",
+                "frequency": "one-time",
+                "channels": ["opencollective", "github-sponsors"]
+            },
+            {
+                "guid": "monthly-donation",
+                "status": "active",
+                "name": "Monthly donation",
+                "amount": 0,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": ["opencollective", "github-sponsors"]
+            },
+            {
+                "guid": "yearly-donation",
+                "status": "active",
+                "name": "Yearly donation",
+                "amount": 0,
+                "currency": "USD",
+                "frequency": "yearly",
+                "channels": ["opencollective"]
+            }
+        ]
+    }
+}

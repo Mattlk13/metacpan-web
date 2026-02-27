@@ -94,6 +94,19 @@ sub robots : Path("robots.txt") : Args(0) {
     } );
 }
 
+sub funding : Path('funding.json') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->add_surrogate_key('FUNDING');
+    $c->browser_max_age('1d');
+    $c->cdn_max_age('1y');
+
+    $c->res->content_type('application/json');
+    $c->stash( {
+        template => 'funding.json',
+    } );
+}
+
 sub healthcheck : Local : Args(0) {
     my ( $self, $c ) = @_;
 
