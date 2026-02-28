@@ -1,6 +1,7 @@
 package MetaCPAN::Web::Controller::Root;
 use Moose;
 use HTTP::Status ();
+use List::Util   qw( uniq );
 use namespace::autoclean;
 
 BEGIN { extends 'MetaCPAN::Web::Controller' }
@@ -54,7 +55,7 @@ sub not_found : Private {
 
     $c->stash( {
         template     => 'not_found.tx',
-        search_terms => [ @{ $c->req->args }, @{ $c->req->captures } ],
+        search_terms => [ uniq @{ $c->req->args }, @{ $c->req->captures } ],
     } );
     $c->response->status(404);
 }
