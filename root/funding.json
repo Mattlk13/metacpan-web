@@ -20,7 +20,8 @@
                 "url": "https://metacpan.org"
             },
             "repositoryUrl": {
-                "url": "https://github.com/metacpan/metacpan-web"
+                "url": "https://github.com/metacpan/metacpan-web",
+                "wellKnown": "https://github.com/metacpan/metacpan-web/blob/master/.well-known/funding-manifest-urls"
             },
             "licenses": ["spdx:Artistic-2.0"],
             "tags": [
