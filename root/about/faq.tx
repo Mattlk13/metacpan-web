@@ -14,6 +14,7 @@
 * [How can I get involved](#how-can-i-get-involved)
 * [Where can I find the API docs](#where-can-i-find-the-api-docs)
 * [How can I try the API](#how-can-i-try-the-api)
+* [What is a PAUSE account and do I need one](#what-is-a-pause-account-and-do-i-need-one)
 * [Why is my PAUSE account not linking](#why-is-my-pause-account-not-linking)
 * [Can you delete my module](#can-you-delete-my-module)
 * [What is the relation of MetaCPAN to author.json and PAUSE account data](#what-is-the-relation-of-metacpan-to-author.json-and-pause-account-data)
@@ -113,6 +114,18 @@ API requests need to be sent to api.metacpan.org/v1/.
 
 [https://explorer.metacpan.org/](https://explorer.metacpan.org/) is an easy way
 to try sending queries to the back-end.
+
+## What is a PAUSE account and do I need one
+
+[PAUSE](https://pause.perl.org/) (The Perl Authors Upload Server) is the system
+that Perl module authors use to upload distributions to [CPAN](https://www.cpan.org/).
+You only need a PAUSE account if you want to upload or maintain modules on CPAN.
+
+If you are a PAUSE author, linking your PAUSE account to MetaCPAN allows you to
+edit your author profile on MetaCPAN.
+
+If you would like to create a PAUSE account, you can
+[request one on the PAUSE website](https://pause.perl.org/pause/query?ACTION=request_id).
 
 ## Why is my PAUSE account not linking
 
