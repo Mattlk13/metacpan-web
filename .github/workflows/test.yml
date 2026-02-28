@@ -73,6 +73,10 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Enable coverage
+        id: coverage
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
+        run: echo "enabled=1" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v6
       - name: Build test image
         id: docker-build-playwright
@@ -107,6 +111,7 @@ jobs:
           docker stop ${{ steps.start-container.outputs.container_id }}
           docker cp ${{ steps.start-container.outputs.container_id }}:/app/cover_db ./cover_db
       - name: Install Codecovbash
+        if: steps.coverage.outputs.enabled
         uses: perl-actions/install-with-cpm@v1
         with:
           install: |
@@ -114,8 +119,10 @@ jobs:
             Devel::Cover::Report::Codecovbash
           sudo: true
       - name: Generate Codecov report
+        if: steps.coverage.outputs.enabled
         run: cover -report codecovbash
       - uses: codecov/codecov-action@v5
+        if: steps.coverage.outputs.enabled
         with:
           fail_ci_if_error: true
           file: ./cover_db/codecov.json
