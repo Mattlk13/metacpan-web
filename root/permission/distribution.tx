@@ -2,7 +2,7 @@
 %%      title     => $title || 'Module permissions for ' ~ $search_term,
 %%  }
 %%  override content -> {
-<h1>Module Permissions for [% $search_term %]</h1>
+<h2 class="permission-heading">Module Permissions</h2>
 
 %%  if $permission_fixes.size() > 0 {
 <details class="permission-fixes">
@@ -32,6 +32,10 @@
 %%  }
 
 <div class="permission-summary">
+  <p>
+    <strong>Distribution:</strong>
+    <a href="/dist/[% $search_term %]">[% $search_term %]</a>
+  </p>
   %%  if $owners.size() > 0 {
     <p>
       <strong>[% if $owners.size() == 1 { %]Owner:[% } else { %]Owners:[% } %]</strong>
