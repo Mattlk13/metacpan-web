@@ -14,6 +14,22 @@ test_psgi app, sub {
     ok( $res = $cb->( GET '/dist/$$$$' ), 'GET /dist/$$$$' );
     is( $res->code, 404, 'code 404' );
 
+    # GH#3544: search term should not be duplicated on 404 page
+    {
+        ok( $res = $cb->( GET '/dist/not!valid' ), 'GET /dist/not!valid' );
+        is( $res->code, 404, 'code 404 for invalid dist name' );
+
+        my $tx = tx($res);
+        my $xpath
+            = '//main[contains-token(@class, "error-page")]//a[contains(@href, "/search?q=")]';
+        is( $tx->find_value($xpath),
+            'not!valid',
+            'search link text is exactly the dist name (GH#3544)' );
+        is( $tx->find_value("$xpath/\@href"),
+            '/search?q=not%21valid',
+            'search link URL contains dist name once (GH#3544)' );
+    }
+
     ok( $res = $cb->( GET '/release/AUTHORDOESNTEXIST/DOESNTEXIST' ),
         'GET /release/AUTHORDOESNTEXIST/DOESNTEXIST' );
     is( $res->code, 404, 'code 404' );
