@@ -4,26 +4,63 @@
 %%  override content -> {
 <h1>Module Permissions for [% $search_term %]</h1>
 
-<table class="table table-striped" style="width: auto; min-width: 33%">
-  <tr>
-    <th>Authorized Releasers ([% $releaser.size() %])</th>
-  </tr>
-  %%  for $releaser -> $author {
-    <tr>
-      <td>
-        <a href="/author/[% $author %]">[% $author %]</a>
-      </td>
-    </tr>
-  %%  }
-  %%  else {
-    <tr>
-      <td>
-        <i>No owner[% if $comaint_count { %] or co-maintainer[% } %] has permissions for all modules in this distribution.</i>
-      </td>
-    </tr>
-  %%  }
-</table>
+%%  if $permission_fixes.size() > 0 {
+<details class="permission-fixes">
+  <summary class="permission-fixes-summary">
+    <i class="fa fa-shield" aria-hidden="true"></i>
+    <strong>Inconsistent permissions</strong>
+  </summary>
+  <div class="permission-fixes-body">
+    <p>Some authors only have partial permissions on this distribution. They are <span class="not-releaser">listed and highlighted</span> to indicate which modules they <strong>do</strong> have permissions on.</p>
+    <p>To fix, either remove all permissions from
+      %%  for $permission_fixes -> $fix {
+        <span class="not-releaser"><a href="/author/[% $fix.author %]">[% $fix.author %]</a></span>[% if !$~fix.is_last { %],[% } %]
+      %%  }
+      or:</p>
+    <ul>
+      %%  for $permission_fixes -> $fix {
+        <li>
+          Grant co-maint to <span class="not-releaser"><a href="/author/[% $fix.author %]">[% $fix.author %]</a></span> on
+          %%  for $fix.missing -> $module {
+            <a href="/pod/[% $module %]">[% $module %]</a>[% if !$~module.is_last { %],[% } %]
+          %%  }
+        </li>
+      %%  }
+    </ul>
+  </div>
+</details>
+%%  }
 
-%% include inc::permission
+<div class="permission-summary">
+  %%  if $owners.size() > 0 {
+    <p>
+      <strong>[% if $owners.size() == 1 { %]Owner:[% } else { %]Owners:[% } %]</strong>
+      %%  for $owners -> $author {
+        <a href="/author/[% $author %]">[% $author %]</a>[% if !$~author.is_last { %],[% } %]
+      %%  }
+    </p>
+  %%  }
+  %%  if $comaints.size() > 0 {
+    <p>
+      <strong>Co-maintainers ([% $comaints.size() %]):</strong>
+      %%  for $comaints -> $author {
+        <a href="/author/[% $author %]">[% $author %]</a>[% if !$~author.is_last { %],[% } %]
+      %%  }
+    </p>
+  %%  }
+  %%  if $owners.size() == 0 && $comaints.size() == 0 {
+    <p><em>No owner[% if $comaint_count { %] or co-maintainer[% } %] has permissions for all modules in this distribution.</em></p>
+  %%  }
+</div>
+
+<p><strong>Modules ([% $module_list.size() %]):</strong></p>
+<ul class="permission-module-list">
+  %%  for $module_list -> $mod {
+    <li>
+      <a href="/pod/[% $mod.module_name %]">[% $mod.module_name %]</a>
+      [% if $mod.non_releasers.size() > 0 { %]<span class="module-extra-authors">([% for $mod.non_releasers -> $author { %]<span class="not-releaser"><a href="/author/[% $author %]">[% $author %]</a></span>[% if !$~author.is_last { %], [% } %][% } %])</span>[% } %]
+    </li>
+  %%  }
+</ul>
 
 %%  }
