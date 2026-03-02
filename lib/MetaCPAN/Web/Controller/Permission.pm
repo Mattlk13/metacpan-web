@@ -31,13 +31,64 @@ sub distribution : Chained('/dist/root') : PathPart('permissions') Args(0) {
         ++$num_modules_of{$_}
             for $module->{owner} // (), @{ $module->{co_maintainers} };
     }
-    my @releaser = sort grep { $num_modules_of{$_} == $total_modules }
+    my %releaser_set;
+    $releaser_set{$_} = 1
+        for grep { $num_modules_of{$_} == $total_modules }
         keys %num_modules_of;
+
+    # Split releasers into owners and co-maintainers
+    my %is_owner;
+    for my $module (@$modules) {
+        $is_owner{ $module->{owner} } = 1 if defined $module->{owner};
+    }
+    my @releasers = sort keys %releaser_set;
+    my @owners    = grep { $is_owner{$_} } @releasers;
+    my @comaints  = grep { !$is_owner{$_} } @releasers;
+
+    # Build flat module list with per-module non-releaser annotations
+    my @module_list;
+    my %has_perms_on;    # author => { module => 1 }
+    for my $module (@$modules) {
+        my @non_releasers
+            = sort grep { !$releaser_set{$_} } @{ $module->{co_maintainers} };
+
+        # Include owner if not a releaser
+        if ( defined $module->{owner} && !$releaser_set{ $module->{owner} } )
+        {
+            unshift @non_releasers, $module->{owner};
+        }
+        push @module_list,
+            {
+            module_name   => $module->{module_name},
+            non_releasers => \@non_releasers,
+            };
+        for my $author ( $module->{owner} // (),
+            @{ $module->{co_maintainers} } )
+        {
+            $has_perms_on{$author}{ $module->{module_name} } = 1;
+        }
+    }
+    @module_list
+        = sort { $a->{module_name} cmp $b->{module_name} } @module_list;
+
+    # For each non-releaser, find which modules they're missing
+    my @all_module_names = map { $_->{module_name} } @module_list;
+    my @permission_fixes;
+    for my $author ( sort keys %has_perms_on ) {
+        next if $releaser_set{$author};
+        my @missing
+            = grep { !$has_perms_on{$author}{$_} } @all_module_names;
+        push @permission_fixes, { author => $author, missing => \@missing }
+            if @missing;
+    }
 
     $c->stash( {
         %$perms,
-        releaser    => \@releaser,
-        search_term => $distribution,
+        comaints         => \@comaints,
+        module_list      => \@module_list,
+        owners           => \@owners,
+        permission_fixes => \@permission_fixes,
+        search_term      => $distribution,
     } );
     $c->forward('view');
 }
