@@ -2,7 +2,7 @@
 %%      title     => $title || 'Module permissions for ' ~ $search_term,
 %%  }
 %%  override content -> {
-<h2 class="permission-heading">Module Permissions</h2>
+<h1 class="permission-heading">Module Permissions</h1>
 
 %%  if $permission_fixes.size() > 0 {
 <details class="permission-fixes">
@@ -11,7 +11,7 @@
     <strong>Inconsistent permissions</strong>
   </summary>
   <div class="permission-fixes-body">
-    <p>Some authors only have partial permissions on this distribution. They are <span class="not-releaser">listed and highlighted</span> to indicate which modules they <strong>do</strong> have permissions on.</p>
+    <p>Some authors only have partial permissions on this distribution.</p>
     <p>To fix, either remove all permissions from
       %%  for $permission_fixes -> $fix {
         <span class="not-releaser"><a href="/author/[% $fix.author %]">[% $fix.author %]</a></span>[% if !$~fix.is_last { %],[% } %]
@@ -29,6 +29,7 @@
     </ul>
   </div>
 </details>
+<input type="checkbox" id="highlight-toggle" class="highlight-toggle-checkbox"> <label for="highlight-toggle">Show authors with partial permissions in the module list</label>
 %%  }
 
 <div class="permission-summary">

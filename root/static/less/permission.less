@@ -1,20 +1,44 @@
 .permission-heading {
     margin-top: 0;
+    font-size: @font-size-h2;
 }
 
 .permission-summary {
     margin-bottom: 1.5em;
 }
 
-.not-releaser {
+.not-releaser-highlight() {
     background-color: #fff176;
     padding: 1px 4px;
     border-radius: 3px;
 }
 
+// Highlight is only used inside the alert body (always visible there)
+.permission-fixes-body .not-releaser {
+    .not-releaser-highlight();
+}
+
+// In the module list, author annotations are hidden by default and shown via checkbox
+
+.permission-module-list .module-extra-authors {
+    display: none;
+    font-size: 0.85em;
+    margin-left: 0.5em;
+}
+
+.highlight-toggle-checkbox:checked
+    ~ .permission-module-list
+    .module-extra-authors {
+    display: inline;
+}
+
+.highlight-toggle-checkbox:checked ~ .permission-module-list .not-releaser {
+    .not-releaser-highlight();
+}
+
 .permission-fixes {
     border: 1px solid @alert-warning-border;
-    border-radius: 4px;
+    border-radius: @border-radius-base;
     margin-bottom: 15px;
 }
 
@@ -32,11 +56,6 @@
     li + li {
         margin-top: 0.75em;
     }
-}
-
-.module-extra-authors {
-    font-size: 0.85em;
-    margin-left: 0.5em;
 }
 
 .permission-module-list {
